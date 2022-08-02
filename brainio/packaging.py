@@ -241,10 +241,11 @@ def package_data_assembly(catalog_identifier, proto_data_assembly, assembly_iden
     # verify
     assembly_class = resolve_assembly_class(assembly_class_name)
     assembly = assembly_class(proto_data_assembly)
-    assembly.attrs['stimulus_set_identifier'] = stimulus_set_identifier
     assembly.validate()
-    assert stimulus_set_identifier in list_stimulus_sets(), \
-        f"StimulusSet {stimulus_set_identifier} not found in packaged stimulus sets"
+    if stimulus_set_identifier:
+        assembly.attrs['stimulus_set_identifier'] = stimulus_set_identifier
+        assert stimulus_set_identifier in list_stimulus_sets(), \
+            f"StimulusSet {stimulus_set_identifier} not found in packaged stimulus sets"
 
     # identifiers
     assembly_store_identifier = "assy_" + assembly_identifier.replace(".", "_")
